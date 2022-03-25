@@ -1,0 +1,4 @@
+connectivity_source_file = '/home/bic/dboutet/tvb_scripting/tvb_environment/tvb/lib/python3.7/site-packages/tvb_data/connectivity/connectivity_68.zip'
+connectivity_source_file_empty = '/home/bic/dboutet/tvb_scripting/tvb_environment/tvb/lib/python3.7/site-packages/tvb_data/connectivity/connectivity_68_empty.zip'
+connectivity_source_file_192 = '/home/bic/dboutet/tvb_scripting/tvb_environment/tvb/lib/python3.7/site-packages/tvb_data/connectivity/connectivity_192.zip'
+connectivity_source_file_max = '/home/bic/dboutet/tvb_scripting/tvb_environment/tvb/lib/python3.7/site-packages/tvb_data/connectivity/connectivity_max.zip'
