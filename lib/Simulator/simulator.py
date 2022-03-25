@@ -47,7 +47,7 @@ class Runner:
         self.coupl.a = ar([a_val])
         self.coupl.b = ar([0])
         #Setting up integrator
-        self.dt = 3.90625/4
+        self.dt = 0.5
         self.integ = integrators.HeunStochastic(dt=self.dt,
                                                 noise=noise.Additive(nsig=Noise))
         self.integ.noise.ntau = 0.0
@@ -76,7 +76,7 @@ class Runner:
         self.local_model.Q = par[19]
         self.local_model.alpha_e = par[20]
         self.local_model.alpha_i = par[21]
-        self.length = length
+        self.length = length*10
         
     #Running the simulation
     def run(self):
@@ -99,7 +99,7 @@ class Runner:
         data = ar(y1[:,0,:,0]).T
         PSD_resE = []
         for region in data:
-            _ , psd = sgl.welch(region[int(2000*(1/self.monitor.period)):],fs=(1000/self.monitor.period), nperseg=2000/self.monitor.period)
+            _ , psd = sgl.welch(region[int(2000*(1/self.dt)):],fs=(1000/self.dt), nperseg=2000/self.dt)
             PSD_resE.append(psd)
         PSD_data = as_tensor(PSD_resE)
         return  ar([PSD_data,self.param],dtype=object)
