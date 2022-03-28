@@ -28,15 +28,16 @@ class Runner:
         #Variables of interest for the monitor
         self.VOI = VOI
         self.param = param
-        par = []
-        names = [n for n in param[0]]
-        for n in param[0]:
-            vals = []
-            for i in range(len(param)):
-                vals.append(param[i][n])
-            par.append(ar(vals))
+        par = param.T.detach().numpy()
+        #names = [n for n in param[0]]
+        #for n in param[0]:
+        #    vals = []
+        #    for i in range(len(param)):
+        #        vals.append(param[i][n])
+        #    par.append(ar(vals))
         #Setting up monitors
-        Noise = ar([[par[22][i] for i in range(len(param))],[par[23][i] for i in range(len(param))]])
+        #Noise = ar([[par[22][i] for i in range(len(param))],[par[23][i] for i in range(len(param))]])
+        Noise = par[-2:,:]
         self.monitor = monitors.RawVoi()
         #self.monitor.period = 3.90625
         self.monitor.variables_of_interest = VOI
@@ -76,7 +77,7 @@ class Runner:
         self.local_model.Q = par[19]
         self.local_model.alpha_e = par[20]
         self.local_model.alpha_i = par[21]
-        self.length = length*10
+        self.length = length
         
     #Running the simulation
     def run(self):
@@ -95,14 +96,14 @@ class Runner:
         #print(len(y1))
         
         #Collecting the data, transposing it to have timeseries for each region
-        #State variable E - I
+        #State variable E
         data = ar(y1[:,0,:,0]).T
         PSD_resE = []
         for region in data:
             _ , psd = sgl.welch(region[int(2000*(1/self.dt)):],fs=(1000/self.dt), nperseg=2000/self.dt)
             PSD_resE.append(psd)
-        PSD_data = as_tensor(PSD_resE)
-        return  ar([PSD_data,self.param],dtype=object)
+        PSD_resE = as_tensor(PSD_resE)
+        return  ar([PSD_resE,self.param],dtype=object)
     def run_long(self):
         
         #Make the simulator
